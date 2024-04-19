@@ -1,0 +1,37 @@
+
+name: Test CLI generate documentation
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate CLI documentation
+        shell: bash
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          PR_BRANCH="test-docs-update"
+          git branch "$PR_BRANCH"
+          git checkout "$PR_BRANCH"
+          git pull origin --ff-only "${PR_BRANCH}" || true
+
+          # Set name/email for commit based on who triggered the release flow.
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
+
+          ./docs/src/docs/cli/generate.sh > /dev/null
+          git add --all
+          git commit -m "docs: update CLI documentation for test"
+          git push origin "${PR_BRANCH}"
+          gh pr create -f -B main -H "${PR_BRANCH}"
+          git checkout "${CURRENT_BRANCH}"

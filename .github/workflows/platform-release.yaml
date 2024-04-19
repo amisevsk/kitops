@@ -170,13 +170,14 @@ jobs:
 
       - name: Generate CLI documentation
         if: ${{ github.event_name != 'workflow_dispatch' }}
+        shell: bash
         run: |
           ./docs/src/docs/cli/generate.sh > /dev/null
-
-      - name: PR for CLI documentation
-        if: ${{ github.event_name != 'workflow_dispatch' }}
-        uses: peter-evans/create-pull-request@v6
-        with:
-          add-paths: |
-            docs/*.md
-          commit-message: "docs: update CLI documentation for ${{ github.ref_name }}"
+          git add docs/**/*.md
+          PR_BRANCH="${{ github.ref_name }}-docs-update"
+          git branch "$PR_BRANCH"
+          git checkout "$PR_BRANCH"
+          git pull origin "${PR_BRANCH}" || true
+          git commit -m "docs: update CLI documentation for ${{ github.ref_name }}"
+          git push origin "${PR_BRANCH}"
+          gh pr create -f -B main -H "${PR_BRANCH}"

@@ -91,6 +91,13 @@ func saveKitfileLayers(ctx context.Context, store oras.Target, kitfile *artifact
 			return nil, err
 		}
 		layers = append(layers, layer)
+		for _, part := range kitfile.Model.Parts {
+			layer, err := saveContentLayer(ctx, store, part.Path, constants.ModelPartLayerMediaType, ignore)
+			if err != nil {
+				return nil, err
+			}
+			layers = append(layers, layer)
+		}
 	}
 	for _, code := range kitfile.Code {
 		layer, err := saveContentLayer(ctx, store, code.Path, constants.CodeLayerMediaType, ignore)
@@ -192,6 +199,8 @@ func layerTypeForMediaType(mediaType string) string {
 		return "config"
 	case constants.ModelLayerMediaType:
 		return "model"
+	case constants.ModelPartLayerMediaType:
+		return "modelpart"
 	}
 	return "<unknown>"
 }

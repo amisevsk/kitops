@@ -21,11 +21,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
+
 	"kitops/pkg/artifact"
 	"kitops/pkg/lib/constants"
 	"kitops/pkg/lib/filesystem"
+	kfutils "kitops/pkg/lib/kitfile"
 	"kitops/pkg/output"
-	"os"
 
 	"github.com/opencontainers/go-digest"
 	specs "github.com/opencontainers/image-spec/specs-go"
@@ -86,11 +88,13 @@ func saveConfig(ctx context.Context, store oras.Target, kitfile *artifact.KitFil
 func saveKitfileLayers(ctx context.Context, store oras.Target, kitfile *artifact.KitFile, ignore filesystem.IgnorePaths) ([]ocispec.Descriptor, error) {
 	var layers []ocispec.Descriptor
 	if kitfile.Model != nil {
-		layer, err := saveContentLayer(ctx, store, kitfile.Model.Path, constants.ModelLayerMediaType, ignore)
-		if err != nil {
-			return nil, err
+		if kitfile.Model.Path != "" && !kfutils.IsModelKitReference(kitfile.Model.Path) {
+			layer, err := saveContentLayer(ctx, store, kitfile.Model.Path, constants.ModelLayerMediaType, ignore)
+			if err != nil {
+				return nil, err
+			}
+			layers = append(layers, layer)
 		}
-		layers = append(layers, layer)
 		for _, part := range kitfile.Model.Parts {
 			layer, err := saveContentLayer(ctx, store, part.Path, constants.ModelPartLayerMediaType, ignore)
 			if err != nil {

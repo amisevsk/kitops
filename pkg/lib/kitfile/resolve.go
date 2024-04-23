@@ -21,10 +21,9 @@ import (
 	"fmt"
 	"kitops/pkg/artifact"
 	"kitops/pkg/cmd/info"
+	"kitops/pkg/lib/constants"
 	"strings"
 )
-
-const maxImportChain = 25
 
 // ResolveKitfile returns the Kitfile for a reference. Any references to other modelkits
 // are fetched and included in the resolved Kitfile, giving the equivalent Kitfile including
@@ -32,8 +31,8 @@ const maxImportChain = 25
 func ResolveKitfile(ctx context.Context, configHome, ref string) (*artifact.KitFile, error) {
 	resolved := &artifact.KitFile{}
 	refChain := []string{ref}
-	for i := 0; i < maxImportChain; i++ {
-		kitfile, err := info.GetKitfileForRef(ctx, configHome, ref)
+	for i := 0; i < constants.MaxModelRefChain; i++ {
+		kitfile, err := info.GetKitfileForRefString(ctx, configHome, ref)
 		if err != nil {
 			return nil, err
 		}

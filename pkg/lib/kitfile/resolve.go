@@ -28,11 +28,11 @@ import (
 // ResolveKitfile returns the Kitfile for a reference. Any references to other modelkits
 // are fetched and included in the resolved Kitfile, giving the equivalent Kitfile including
 // the model, datasets, and code from those referenced modelkits.
-func ResolveKitfile(ctx context.Context, configHome, ref string) (*artifact.KitFile, error) {
+func ResolveKitfile(ctx context.Context, configHome, kitfileRef, baseRef string) (*artifact.KitFile, error) {
 	resolved := &artifact.KitFile{}
-	refChain := []string{ref}
+	refChain := []string{baseRef, kitfileRef}
 	for i := 0; i < constants.MaxModelRefChain; i++ {
-		kitfile, err := info.GetKitfileForRefString(ctx, configHome, ref)
+		kitfile, err := info.GetKitfileForRefString(ctx, configHome, kitfileRef)
 		if err != nil {
 			return nil, err
 		}
@@ -45,10 +45,9 @@ func ResolveKitfile(ctx context.Context, configHome, ref string) (*artifact.KitF
 			return nil, fmt.Errorf("Found cycle in modelkit references: %s", cycleStr)
 		}
 		refChain = append(refChain, resolved.Model.Path)
-		ref = resolved.Model.Path
+		kitfileRef = resolved.Model.Path
 	}
-
-	return resolved, nil
+	return nil, fmt.Errorf("Reached maximum number of model references: [%s]", strings.Join(refChain, "=>"))
 }
 
 func mergeKitfiles(into, from *artifact.KitFile) *artifact.KitFile {

@@ -29,7 +29,7 @@ import (
 
 func RunTag(ctx context.Context, options *tagOptions) error {
 	storageHome := constants.StoragePath(options.configHome)
-	sourceStore, err := local.NewLocalStore(storageHome, options.sourceRef)
+	sourceStore, err := local.NewLocalRepo(storageHome, options.sourceRef)
 	if err != nil {
 		return fmt.Errorf("failed to open local storage: %w", err)
 	}
@@ -48,7 +48,7 @@ func RunTag(ctx context.Context, options *tagOptions) error {
 		return nil
 	}
 	// model kit is on a different registry and/or repo, copy the model to the target store
-	targetStore, err := local.NewLocalStore(storageHome, options.targetRef)
+	targetStore, err := local.NewLocalRepo(storageHome, options.targetRef)
 	if err != nil {
 		return fmt.Errorf("failed to open local storage: %w", err)
 	}

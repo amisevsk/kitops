@@ -47,7 +47,7 @@ func runPack(ctx context.Context, options *packOptions) error {
 	}
 
 	storageHome := constants.StoragePath(options.configHome)
-	localStore, err := local.NewLocalStore(storageHome, options.modelRef)
+	localStore, err := local.NewLocalRepo(storageHome, options.modelRef)
 	if err != nil {
 		return fmt.Errorf("failed to open local storage: %w", err)
 	}

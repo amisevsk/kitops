@@ -32,7 +32,7 @@ import (
 
 func getStoreForRef(ctx context.Context, opts *unpackOptions) (oras.Target, error) {
 	storageHome := constants.StoragePath(opts.configHome)
-	localStore, err := local.NewLocalStore(storageHome, opts.modelRef)
+	localStore, err := local.NewLocalRepo(storageHome, opts.modelRef)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read local storage: %s\n", err)
 	}

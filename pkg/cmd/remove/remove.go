@@ -113,7 +113,7 @@ func removeUntaggedModels(ctx context.Context, opts *removeOptions) error {
 
 func removeModel(ctx context.Context, opts *removeOptions) error {
 	storageRoot := constants.StoragePath(opts.configHome)
-	localStore, err := local.NewLocalStore(storageRoot, opts.modelRef)
+	localStore, err := local.NewLocalRepo(storageRoot, opts.modelRef)
 	if err != nil {
 		return fmt.Errorf("failed to read local storage at path %s: %w", storageRoot, err)
 	}

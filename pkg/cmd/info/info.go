@@ -37,7 +37,7 @@ func getInfo(ctx context.Context, opts *infoOptions) (*artifact.KitFile, error) 
 
 func getLocalConfig(ctx context.Context, opts *infoOptions) (*artifact.KitFile, error) {
 	storageRoot := constants.StoragePath(opts.configHome)
-	store, err := local.NewLocalStore(storageRoot, opts.modelRef)
+	store, err := local.NewLocalRepo(storageRoot, opts.modelRef)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read local storage: %w", err)
 	}

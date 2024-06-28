@@ -41,7 +41,7 @@ func GetKitfileForRefString(ctx context.Context, configHome string, ref string) 
 
 func GetKitfileForRef(ctx context.Context, configHome string, ref *registry.Reference) (*artifact.KitFile, error) {
 	storageRoot := constants.StoragePath(configHome)
-	store, err := local.NewLocalStore(storageRoot, ref)
+	store, err := local.NewLocalRepo(storageRoot, ref)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read local storage: %w", err)
 	}

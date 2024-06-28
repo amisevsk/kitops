@@ -17,6 +17,8 @@
 package constants
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -109,4 +111,13 @@ func CredentialsPath(configBase string) string {
 // based off the base path of the index.
 func IndexJsonPath(storageBase string) string {
 	return filepath.Join(storageBase, "index.json")
+}
+
+// IndexJsonPathForRepo returns the path to an index.json that is scoped for a specific repo (org/name)
+func IndexJsonPathForRepo(storageBase, repo string) string {
+	// We need to encode the repo as it may contain invalid characters. Use MD5 since it's shorter
+	repoDigest := md5.Sum([]byte(repo))
+	repoEncoded := hex.EncodeToString(repoDigest[:])
+	indexFileName := fmt.Sprintf("%s-index.json", repoEncoded)
+	return filepath.Join(storageBase, indexFileName)
 }

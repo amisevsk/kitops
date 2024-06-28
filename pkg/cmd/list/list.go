@@ -39,7 +39,7 @@ func listLocalKits(ctx context.Context, opts *listOptions) ([]string, error) {
 	return allInfoLines, nil
 }
 
-func listKits(ctx context.Context, store local.LocalStorage) ([]string, error) {
+func listKits(ctx context.Context, store local.LocalRepo) ([]string, error) {
 	index, err := store.GetIndex()
 	if err != nil {
 		return nil, err

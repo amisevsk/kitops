@@ -167,7 +167,7 @@ func removeRemoteModel(ctx context.Context, opts *removeOptions) error {
 	return nil
 }
 
-func removeModelRef(ctx context.Context, store local.LocalStorage, ref *registry.Reference, forceDelete bool) (ocispec.Descriptor, error) {
+func removeModelRef(ctx context.Context, store local.LocalRepo, ref *registry.Reference, forceDelete bool) (ocispec.Descriptor, error) {
 	desc, err := oras.Resolve(ctx, store, ref.Reference, oras.ResolveOptions{})
 	if err != nil {
 		if err == errdef.ErrNotFound {

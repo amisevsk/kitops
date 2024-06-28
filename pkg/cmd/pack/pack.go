@@ -75,7 +75,7 @@ func runPack(ctx context.Context, options *packOptions) error {
 	return nil
 }
 
-func pack(ctx context.Context, opts *packOptions, kitfile *artifact.KitFile, store local.LocalStorage) (*ocispec.Descriptor, error) {
+func pack(ctx context.Context, opts *packOptions, kitfile *artifact.KitFile, store local.LocalRepo) (*ocispec.Descriptor, error) {
 	var extraLayerPaths []string
 	if kitfile.Model != nil && util.IsModelKitReference(kitfile.Model.Path) {
 		baseRef := util.FormatRepositoryForDisplay(opts.modelRef.String())

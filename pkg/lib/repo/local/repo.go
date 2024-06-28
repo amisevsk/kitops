@@ -15,9 +15,8 @@ import (
 )
 
 type LocalRepo interface {
-	// GetRepo() string
-	// GetIndex() (*ocispec.Index, error)
-	// getStorePath() string
+	GetRepo() string
+	GetIndex() (*ocispec.Index, error)
 	oras.Target
 	content.Deleter
 	content.Untagger
@@ -73,16 +72,6 @@ func (r *localRepo) GetRepo() string {
 
 // // Fetch implements LocalRepo.
 // func (l *localRepo) Fetch(ctx context.Context, target ocispec.Descriptor) (io.ReadCloser, error) {
-// 	panic("unimplemented")
-// }
-
-// // GetIndex implements LocalRepo.
-// func (l *localRepo) GetIndex() (*ocispec.Index, error) {
-// 	panic("unimplemented")
-// }
-
-// // GetRepo implements LocalRepo.
-// func (l *localRepo) GetRepo() string {
 // 	panic("unimplemented")
 // }
 

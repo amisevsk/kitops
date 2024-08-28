@@ -50,6 +50,10 @@ jobs:
             KIT_VERSION=v0.3.3
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.NEXT_TAG }}
+          annotations: |
+            org.opencontainers.image.description=Kit CLI container built from source
+            org.opencontainers.image.source=https://github.com/jozu-ai/kitops
+            org.opencontainers.image.licenses=Apache-2.0
 
       - name: Build and push Kit init container
         id: build-kit-init-container
@@ -63,6 +67,10 @@ jobs:
             KIT_BASE_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-kit-container.outputs.digest }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.INIT_IMAGE_NAME }}:${{ env.NEXT_TAG }}
+          annotations: |
+            org.opencontainers.image.description=Kit CLI init container
+            org.opencontainers.image.source=https://github.com/jozu-ai/kitops
+            org.opencontainers.image.licenses=Apache-2.0
 
       - name: Generate artifact attestation for base container
         uses: actions/attest-build-provenance@6149ea5740be74af77f260b9db67e633f6b0a9a1   # v1.4.2
@@ -77,6 +85,7 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.INIT_IMAGE_NAME }}
           subject-digest: ${{ steps.build-kit-init-container.outputs.digest }}
           push-to-registry: true
+
 
 
   docker-image-build-release:
@@ -111,6 +120,10 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v0.3.3
+          annotations: |
+            org.opencontainers.image.description=Official release Kit CLI container
+            org.opencontainers.image.source=https://github.com/jozu-ai/kitops
+            org.opencontainers.image.licenses=Apache-2.0
 
       - name: Build and push Kit init container
         id: build-kit-init-container
@@ -120,11 +133,16 @@ jobs:
           push: true
           context: build/dockerfiles/init
           file: build/dockerfiles/init/Dockerfile
+
           build-args: |
             KIT_BASE_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-kit-container.outputs.digest }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.INIT_IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.INIT_IMAGE_NAME }}:v0.3.3
+          annotations: |
+            org.opencontainers.image.description=Kit CLI init container
+            org.opencontainers.image.source=https://github.com/jozu-ai/kitops
+            org.opencontainers.image.licenses=Apache-2.0
 
       - name: Generate artifact attestation for base container
         uses: actions/attest-build-provenance@6149ea5740be74af77f260b9db67e633f6b0a9a1   # v1.4.2

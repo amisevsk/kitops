@@ -31,6 +31,6 @@ COPY --from=builder /build/kit /usr/local/bin/kit
 
 ENTRYPOINT ["kit"]
 
-LABEL org.opencontainers.image.description "Kit CLI container built from source"
-LABEL org.opencontainers.image.source "https://github.com/jozu-ai/kitops"
-LABEL org.opencontainers.image.licenses "Apache-2.0"
+LABEL org.opencontainers.image.description="Kit CLI container built from source"
+LABEL org.opencontainers.image.source="https://github.com/jozu-ai/kitops"
+LABEL org.opencontainers.image.licenses="Apache-2.0"

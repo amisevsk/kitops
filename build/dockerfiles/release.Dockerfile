@@ -45,6 +45,6 @@ USER ${USER_ID}
 
 ENTRYPOINT ["kit"]
 
-LABEL org.opencontainers.image.description "Official release Kit CLI container"
-LABEL org.opencontainers.image.source "https://github.com/jozu-ai/kitops"
-LABEL org.opencontainers.image.licenses "Apache-2.0"
+LABEL org.opencontainers.image.description="Official release Kit CLI container"
+LABEL org.opencontainers.image.source="https://github.com/jozu-ai/kitops"
+LABEL org.opencontainers.image.licenses="Apache-2.0"

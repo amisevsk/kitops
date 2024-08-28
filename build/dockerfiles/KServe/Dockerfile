@@ -5,6 +5,6 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-LABEL org.opencontainers.image.description "KitOps KServe container"
-LABEL org.opencontainers.image.source "https://github.com/jozu-ai/kitops"
-LABEL org.opencontainers.image.licenses "Apache-2.0"
+LABEL org.opencontainers.image.description="KitOps KServe container"
+LABEL org.opencontainers.image.source="https://github.com/jozu-ai/kitops"
+LABEL org.opencontainers.image.licenses="Apache-2.0"

@@ -10,6 +10,6 @@ COPY --from=cosign-install /ko-app/cosign /usr/local/bin/cosign
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-LABEL org.opencontainers.image.description "Kit CLI init container"
-LABEL org.opencontainers.image.source "https://github.com/jozu-ai/kitops"
-LABEL org.opencontainers.image.licenses "Apache-2.0"
+LABEL org.opencontainers.image.description="Kit CLI init container"
+LABEL org.opencontainers.image.source="https://github.com/jozu-ai/kitops"
+LABEL org.opencontainers.image.licenses="Apache-2.0"

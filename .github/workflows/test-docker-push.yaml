@@ -47,7 +47,7 @@ jobs:
           context: .
           file: build/dockerfiles/Dockerfile
           build-args: |
-            KIT_VERSION=${{ github.ref_name }}
+            KIT_VERSION=v0.3.3
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.NEXT_TAG }}
 
@@ -107,10 +107,10 @@ jobs:
           context: build/dockerfiles
           file: build/dockerfiles/release.Dockerfile
           build-args: |
-            KIT_VERSION=${{ github.ref_name }}
+            KIT_VERSION=v0.3.3
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v0.3.3
 
       - name: Build and push Kit init container
         id: build-kit-init-container
@@ -124,7 +124,7 @@ jobs:
             KIT_BASE_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-kit-container.outputs.digest }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.INIT_IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ env.INIT_IMAGE_NAME }}:${{ github.ref_name }}
+            ${{ env.REGISTRY }}/${{ env.INIT_IMAGE_NAME }}:v0.3.3
 
       - name: Generate artifact attestation for base container
         uses: actions/attest-build-provenance@6149ea5740be74af77f260b9db67e633f6b0a9a1   # v1.4.2
